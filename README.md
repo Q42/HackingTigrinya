@@ -24,7 +24,10 @@ cd /src
 ./train-cloud.sh
 ```
 
+# Tensorboard
+Open Tensorboard by running `./tensorboard.sh`, next browse to http://localhost:8888.
+
 # Installation notes
-To configure gcloud, refer to the docs here: https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu
+To configure gcloud, refer to the docs here: https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu.
 
 Note: gcloud is already installed in the Docker container.
