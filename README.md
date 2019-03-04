@@ -12,4 +12,9 @@ cd /src
 ----
 
 To configure gcloud, refer to the docs here: https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu
+
 Note: gcloud is already installed in the Docker container.
+
+After logging in, set the default project:
+
+`gcloud config set project hacking-tigrinya`
