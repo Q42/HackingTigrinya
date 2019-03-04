@@ -1,2 +1,4 @@
 .DS_STORE
 secrets
+dist
+nmt.egg-info

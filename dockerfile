@@ -17,6 +17,8 @@ ADD secrets/gcloud-sdk-service-account.json /secrets/
 RUN gcloud config configurations create default
 RUN gcloud auth activate-service-account --key-file /secrets/gcloud-sdk-service-account.json
 RUN gcloud config set project hacking-tigrinya
+RUN gcloud config set compute/region europe-west1
 ENV GOOGLE_APPLICATION_CREDENTIALS="/secrets/gcloud-sdk-service-account.json"
 
 ADD run-en-vi-example.sh train-local.sh train-cloud.sh /src/
+COPY dist/nmt-0.1.tar.gz /tmp/
