@@ -12,4 +12,10 @@ ADD nmt /src/nmt/
 RUN /src/nmt/scripts/download_iwslt15.sh /tmp/nmt_data
 RUN mkdir /tmp/nmt_model
 
+# GCloud SDK initialisation
+ADD secrets/gcloud-sdk-service-account.json /secrets/
+RUN gcloud config configurations create default
+RUN gcloud auth activate-service-account --key-file /secrets/gcloud-sdk-service-account.json
+RUN gcloud config set project hacking-tigrinya
+
 ADD run-en-vi-example.sh /src/
