@@ -1,17 +1,17 @@
-gcloud ml-engine local train \\
-    --module-name nmt.nmt \\
-    --package-path nmt/ \\
-    --job-dir gs://hacking-tigrinya/ \\
-    -- \\
-    --src=vi --tgt=en \\
-    --vocab_prefix=gs://hacking-tigrinya/vocab  \\
-    --train_prefix=gs://hacking-tigrinya/train \\
-    --dev_prefix=gs://hacking-tigrinya/tst2012  \\
-    --test_prefix=gs://hacking-tigrinya/tst2013 \\
-    --out_dir=gs://hacking-tigrinya/nmt_model \\
-    --num_train_steps=12000 \\
-    --steps_per_stats=100 \\
-    --num_layers=2 \\
-    --num_units=128 \\
-    --dropout=0.2 \\
+gcloud ml-engine local train \
+    --module-name nmt.nmt \
+    --package-path nmt/ \
+    --job-dir gs://hacking-tigrinya/ \
+    -- \
+    --src=vi --tgt=en \
+    --vocab_prefix=gs://hacking-tigrinya/vocab  \
+    --train_prefix=gs://hacking-tigrinya/train \
+    --dev_prefix=gs://hacking-tigrinya/tst2012  \
+    --test_prefix=gs://hacking-tigrinya/tst2013 \
+    --out_dir=gs://hacking-tigrinya/nmt_model \
+    --num_train_steps=12000 \
+    --steps_per_stats=100 \
+    --num_layers=2 \
+    --num_units=128 \
+    --dropout=0.2 \
     --metrics=bleu
