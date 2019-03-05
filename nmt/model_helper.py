@@ -204,11 +204,11 @@ def create_infer_model(model_creator, hparams, scope=None, extra_args=None):
     reverse_tgt_vocab_table = lookup_ops.index_to_string_table_from_file(
         tgt_vocab_file, default_value=vocab_utils.UNK)
 
-    src_placeholder = tf.placeholder(shape=[None], dtype=tf.string)
+    src_placeholder = tf.placeholder(dtype=tf.string,name="src_placeholder")
     batch_size_placeholder = tf.constant(1, tf.int64)
 
     iterator = pre_process(
-      src_placeholder,
+        src_placeholder,
         src_vocab_table,
         eos=hparams.eos,
         src_max_len=hparams.src_max_len_infer)

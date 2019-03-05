@@ -113,28 +113,26 @@ class Exporter(object):
 
   def export(self):
     infer_model = self._create_infer_model()
+
     with tf.Session(graph=infer_model.graph,
                     config=tf.ConfigProto(allow_soft_placement=True)) as sess:
       feature_config = {
         'input': tf.FixedLenSequenceFeature(dtype=tf.string,
                                             shape=[], allow_missing=True),
       }
-      serialized_example = tf.placeholder(dtype=tf.string, name="serialized_example")
-      tf_example = tf.parse_example(serialized_example, feature_config)
-      inference_input = tf.identity(tf_example['input'], name="infer_input")
-
+      inference_input = infer_model.graph.get_tensor_by_name('src_placeholder:0')	  
       saver = infer_model.model.saver
       saver.restore(sess, self._ckpt_path)
+
       sess.run(tf.tables_initializer())
-      # note here. Do not use decode func of model.
       inference_outputs = infer_model.model.sample_words
-     
+      inference_output = inference_outputs[0]
       inference_signature = tf.saved_model.signature_def_utils.predict_signature_def(
         inputs={
           'seq_input': inference_input
         },
         outputs={
-          'seq_output': tf.convert_to_tensor(inference_outputs)
+          'seq_output': tf.convert_to_tensor(inference_output)
         }
       )
       legacy_ini_op = tf.group(tf.tables_initializer(), name='legacy_init_op')
