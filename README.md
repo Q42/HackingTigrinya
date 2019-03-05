@@ -44,12 +44,19 @@ To make the tarball, `cd` to the directory where these files are and run `tar -z
 The `vocab.ti` and `vocab.en` files are generated during Docker build. The whole package then get's copied to the destination bucket `gs://hacking-tigrinya-enti-cloud` or `gs://hacking-tigrinya-enti-local` when running either of the train scripts.
 
 # Exporting model
-To use the aftermarket exporting script proposed in [https://github.com/tensorflow/nmt/pull/344](this PR) run the following:
+To use the aftermarket exporting script proposed in [this PR](https://github.com/tensorflow/nmt/pull/344) run the following:
 
 ```
 cd /src
 ./export-model.sh
 ```
+
+To export a [model from a checkpoint](https://stackoverflow.com/questions/45864363/tensorflow-how-to-convert-meta-data-and-index-model-files-into-one-graph-pb) run the following:
+ ```
+cd /src
+./freeze_graph.py # Optionally edit the dirs in freeze_graph.py first
+```
+Note that exporting a model from a checkpoint that was not created on the same machine doesn't seem to work.
 
 # Tensorboard
 Open Tensorboard by running `./tensorboard.sh`, next browse to http://localhost:8888.
