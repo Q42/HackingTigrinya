@@ -43,6 +43,14 @@ To make the tarball, `cd` to the directory where these files are and run `tar -z
 
 The `vocab.ti` and `vocab.en` files are generated during Docker build. The whole package then get's copied to the destination bucket `gs://hacking-tigrinya-enti-cloud` or `gs://hacking-tigrinya-enti-local` when running either of the train scripts.
 
+# Exporting model
+To use the aftermarket exporting script proposed in [https://github.com/tensorflow/nmt/pull/344](this PR) run the following:
+
+```
+cd /src
+./export-model.sh
+```
+
 # Tensorboard
 Open Tensorboard by running `./tensorboard.sh`, next browse to http://localhost:8888.
 
