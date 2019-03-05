@@ -25,5 +25,5 @@ gcloud ml-engine jobs submit training $JOB_NAME \
     --num_layers=2 \
     --num_units=128 \
     --dropout=0.2 \
-    --batch_size=64 \
+    --batch_size=32 \
     --metrics=bleu
