@@ -4,26 +4,24 @@
 1. Start shell session in Docker container: `./run.sh`.
 
 
-# Run example
-Run the English/Vietnamese example as follows:
-
-## Train locally without using Cloud ML
-```
-./run-en-vi-example.sh
-```
-
-## Train locally using Cloud ML
-```
-./train-local.sh
-```
-
-## Train in cloud using Cloud ML
+# Training
+Run Tigrinya/English training on the GCP using CloudML as follows:
 ```
 ./train-cloud.sh
 ```
 
+Alternatively, you can train locally with or without using CloudML:
+
+```
+# Train locally using Cloud ML
+./train-local.sh
+
+# Train locally without using Cloud ML
+./run-en-vi-example.sh
+```
+
 # Preparing training data
-The training script grab their training data from a GCP bucket named `gs://hacking-tigrinya-training-data`. 
+The training scripts grab their training data from a GCP bucket named `gs://hacking-tigrinya-training-data`. 
 To put the data there, download the data from drive https://drive.google.com/drive/u/0/folders/1R39NougcbNncesDb_ndUhONKWWjbawo- and put it in a tarball.
 
 The scripts expect the tar to contain the following files:
@@ -38,7 +36,7 @@ The scripts expect the tar to contain the following files:
 
 To make the tarball, `cd` to the directory where these files are and run `tar -zcvf ~/Downloads/corpus.tar.gz .` (where `~/Downloads/corpus.tar.gz` is the destination file).
 
-The `vocab.ti` and `vocab.en` files are generated during Docker build. The whole package then get's copied to the destination bucket `gs://hacking-tigrinya-enti-cloud` or `gs://hacking-tigrinya-enti-local` when running either of the train scripts.
+The `vocab.ti` and `vocab.en` files are generated during Docker build. The whole package then gets copied to the destination bucket `gs://hacking-tigrinya-enti-cloud` or `gs://hacking-tigrinya-enti-local` when running either of the training scripts.
 
 # Exporting model
 To use the aftermarket exporting script proposed in [this PR](https://github.com/tensorflow/nmt/pull/344) run the following:
@@ -53,10 +51,18 @@ To export a [model from a checkpoint](https://stackoverflow.com/questions/458643
 ```
 Note that exporting a model from a checkpoint that was not created on the same machine doesn't seem to work.
 
-# Tensorboard
-Open Tensorboard by running `./tensorboard.sh <JOB_NAME>` from your terminal (so not from within the Docker container), next browse to http://localhost:8888.
-
 # Inference
+
+## Using Tensorflow Serving
+
+Tensorflow Serving runs in a separate Docker container. Make sure to run the following commands on the host machine rather than in the Docker container.
+
+At the end of the `./export-model.sh` step above the exported model is uploaded to a GCP bucket: `gs://hacking-tigrinya-cloud/output-enti/[timestamp]`.
+
+Use this timestamp as input for the following script to download the latest model and start the Tensorflow Serving container: `./download-latest-model-and-start-server [timestamp]`.
+
+If the server started correctly, you can now issue requests to the Tensorflow Serving server. Run `./infer.sh` to issue two translation requests.
+
 ## Using NMT
 Run `./nmt-inference.sh <JOB_NAME> <INPUT_FILE> <OUTPUT_FILE>`.
 
@@ -66,6 +72,9 @@ echo "ኣብ መዓልታዊ መደብካ ፡ እተዕርፈሉ ግዜ መድ�
 ./nmt-inference.sh nmt_20190305_104416 ./test.ti /tmp/test_infer
 cat /tmp/test_infer
 ```
+
+# Tensorboard
+Open Tensorboard by running `./tensorboard.sh <JOB_NAME>` from your terminal (so not from within the Docker container), next browse to http://localhost:8888.
 
 # Installation notes
 To configure gcloud, refer to the docs here: https://cloud.google.com/sdk/docs/quickstart-debian-ubuntu.
