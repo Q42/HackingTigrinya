@@ -58,12 +58,12 @@ Open Tensorboard by running `./tensorboard.sh <JOB_NAME>` from your terminal (so
 
 # Inference
 ## Using NMT
-Run `./inference.sh <JOB_NAME> <INPUT_FILE> <OUTPUT_FILE>`.
+Run `./nmt-inference.sh <JOB_NAME> <INPUT_FILE> <OUTPUT_FILE>`.
 
 Example:
 ```
 echo "ኣብ መዓልታዊ መደብካ ፡ እተዕርፈሉ ግዜ መድብ ። " > test.ti
-./inference.sh nmt_20190305_104416 ./test.ti /tmp/test_infer
+./nmt-inference.sh nmt_20190305_104416 ./test.ti /tmp/test_infer
 cat /tmp/test_infer
 ```
 
