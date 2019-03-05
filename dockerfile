@@ -1,6 +1,6 @@
 FROM tensorflow/tensorflow:nightly
 
-RUN apt-get -y install curl wget lsb-release
+RUN apt-get -y install curl wget lsb-release nano
 
 RUN export CLOUD_SDK_REPO="cloud-sdk-$(lsb_release -c -s)" && \
     echo "deb http://packages.cloud.google.com/apt $CLOUD_SDK_REPO main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list && \
@@ -20,5 +20,15 @@ RUN gcloud config set project hacking-tigrinya
 RUN gcloud config set compute/region europe-west1
 ENV GOOGLE_APPLICATION_CREDENTIALS="/secrets/gcloud-sdk-service-account.json"
 
+ADD download-trainingdata.sh /src
+RUN chmod +x /src/download-trainingdata.sh
+RUN /src/download-trainingdata.sh
+
+ADD generate-vocab.py --max_vocab_size 17000 /src/
 ADD run-en-vi-example.sh train-local.sh train-cloud.sh /src/
+RUN python /src/generate-vocab.py /tmp/training-data/training.en > /tmp/training-data/vocab.en
+RUN python /src/generate-vocab.py /tmp/training-data/training.ti > /tmp/training-data/vocab.ti
+
 COPY dist/nmt-0.1.tar.gz /tmp/
+
+WORKDIR /src/
