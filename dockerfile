@@ -24,10 +24,10 @@ ADD download-trainingdata.sh /src
 RUN chmod +x /src/download-trainingdata.sh
 RUN /src/download-trainingdata.sh
 
-ADD generate-vocab.py --max_vocab_size 17000 /src/
+ADD generate-vocab.py /src/
 ADD run-en-vi-example.sh train-local.sh train-cloud.sh /src/
-RUN python /src/generate-vocab.py /tmp/training-data/training.en > /tmp/training-data/vocab.en
-RUN python /src/generate-vocab.py /tmp/training-data/training.ti > /tmp/training-data/vocab.ti
+RUN python /src/generate-vocab.py --max_vocab_size 17000 /tmp/training-data/training.en > /tmp/training-data/vocab.en
+RUN python /src/generate-vocab.py --max_vocab_size 17000 /tmp/training-data/training.ti > /tmp/training-data/vocab.ti
 
 COPY dist/nmt-0.1.tar.gz /tmp/
 
