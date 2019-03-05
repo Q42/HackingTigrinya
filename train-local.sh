@@ -22,4 +22,5 @@ gcloud ml-engine local train \
     --num_layers=2 \
     --num_units=128 \
     --dropout=0.2 \
+    --batch_size=64 \
     --metrics=bleu
