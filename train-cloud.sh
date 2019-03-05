@@ -2,10 +2,10 @@ now=$(date +"%Y%m%d_%H%M%S")
 JOB_NAME="nmt_$now"
 MAIN_TRAINER_MODULE="nmt.nmt"
 TRAINER_PACKAGE_PATH="/tmp/nmt-0.1.tar.gz"
-JOB_DIR="gs://hacking-tigrinya-enti-cloud"
-OUT_DIR="gs://hacking-tigrinya-enti-cloud/nmt_model"
+JOB_DIR="gs://hacking-tigrinya-enti-cloud/$JOB_NAME"
+OUT_DIR="gs://hacking-tigrinya-enti-cloud/$JOB_NAME/nmt_model"
 
-gsutil cp /tmp/training-data/vocab.* $JOB_DIR/training-data
+gsutil cp -r /tmp/training-data/ $JOB_DIR/training-data
 
 gcloud ml-engine jobs submit training $JOB_NAME \
     --module-name $MAIN_TRAINER_MODULE \

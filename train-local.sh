@@ -1,9 +1,11 @@
+now=$(date +"%Y%m%d_%H%M%S")
+JOB_NAME="nmt_$now"
 MAIN_TRAINER_MODULE="nmt.nmt"
 TRAINER_PACKAGE_PATH="nmt"
-JOB_DIR="gs://hacking-tigrinya-enti-local"
-OUT_DIR="gs://hacking-tigrinya-enti-local/nmt_model"
+JOB_DIR="gs://hacking-tigrinya-enti-local/$JOB_NAME"
+OUT_DIR="gs://hacking-tigrinya-enti-local/$JOB_NAME/nmt_model"
 
-gsutil cp /tmp/training-data/vocab.* $JOB_DIR/training-data
+gsutil cp -r /tmp/training-data/ $JOB_DIR/training-data
 
 gcloud ml-engine local train \
     --module-name $MAIN_TRAINER_MODULE \
