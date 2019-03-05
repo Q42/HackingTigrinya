@@ -113,7 +113,6 @@ class Exporter(object):
 
   def export(self):
     infer_model = self._create_infer_model()
-
     with tf.Session(graph=infer_model.graph,
                     config=tf.ConfigProto(allow_soft_placement=True)) as sess:
       feature_config = {
@@ -126,32 +125,16 @@ class Exporter(object):
 
       saver = infer_model.model.saver
       saver.restore(sess, self._ckpt_path)
-
-      # initialize tables
       sess.run(tf.tables_initializer())
-      sess.run(
-        infer_model.iterator.initializer,
-        feed_dict={
-          infer_model.src_placeholder: self._load_infer_data(),
-          infer_model.batch_size_placeholder: self.hparams.infer_batch_size
-        })
-
-      # get outputs of model
-      inference_outputs, _ = infer_model.model.decode(sess=sess)
-      # get the first of the outputs as the result of inference
-      inference_output = inference_outputs[0]
-
-      # create signature def
-      # key `seq_input` in `inputs` dict could be changed as your will,
-      # but the client should consistent with this
-      # when you make an inference request.
-      # key `seq_output` in outputs dict is the same as above
+      # note here. Do not use decode func of model.
+      inference_outputs = infer_model.model.sample_words
+     
       inference_signature = tf.saved_model.signature_def_utils.predict_signature_def(
         inputs={
           'seq_input': inference_input
         },
         outputs={
-          'seq_output': tf.convert_to_tensor(inference_output)
+          'seq_output': tf.convert_to_tensor(inference_outputs)
         }
       )
       legacy_ini_op = tf.group(tf.tables_initializer(), name='legacy_init_op')

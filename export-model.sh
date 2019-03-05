@@ -7,7 +7,6 @@ TRAINER_PACKAGE_PATH="nmt"
 JOB_DIR="/tmp/envi/hacking-tigrinya-cloud/"
 OUT_DIR="/tmp/envi/hacking-tigrinya-cloud/nmt_model/"
 
-
 gcloud ml-engine local train \
     --module-name $MAIN_TRAINER_MODULE \
     --package-path $TRAINER_PACKAGE_PATH \
@@ -16,3 +15,5 @@ gcloud ml-engine local train \
     --out_dir=$OUT_DIR \
     --export_path=$OUT_DIR \
     --ckpt_path=$OUT_DIR
+
+gsutil -m cp -r /tmp/envi/hacking-tigrinya-cloud/nmt_model/1* gs://hacking-tigrinya-cloud/output-envi

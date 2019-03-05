@@ -194,7 +194,6 @@ class InferModel(
 
 
 def create_infer_model(model_creator, hparams, scope=None, extra_args=None):
-  """Create inference model."""
   graph = tf.Graph()
   src_vocab_file = hparams.src_vocab_file
   tgt_vocab_file = hparams.tgt_vocab_file
@@ -206,17 +205,13 @@ def create_infer_model(model_creator, hparams, scope=None, extra_args=None):
         tgt_vocab_file, default_value=vocab_utils.UNK)
 
     src_placeholder = tf.placeholder(shape=[None], dtype=tf.string)
-    batch_size_placeholder = tf.placeholder(shape=[], dtype=tf.int64)
+    batch_size_placeholder = tf.constant(1, tf.int64)
 
-    src_dataset = tf.data.Dataset.from_tensor_slices(
-        src_placeholder)
-    iterator = iterator_utils.get_infer_iterator(
-        src_dataset,
+    iterator = pre_process(
+      src_placeholder,
         src_vocab_table,
-        batch_size=batch_size_placeholder,
         eos=hparams.eos,
-        src_max_len=hparams.src_max_len_infer,
-        use_char_encode=hparams.use_char_encode)
+        src_max_len=hparams.src_max_len_infer)
     model = model_creator(
         hparams,
         iterator=iterator,
@@ -232,6 +227,24 @@ def create_infer_model(model_creator, hparams, scope=None, extra_args=None):
       src_placeholder=src_placeholder,
       batch_size_placeholder=batch_size_placeholder,
       iterator=iterator)
+
+def pre_process(src_string, src_vocab_table, eos, src_max_len=35):
+  src_eos_id = tf.cast(src_vocab_table.lookup(tf.constant(eos)), tf.int32)
+  src_string = tf.string_split(src_string).values
+
+  if src_max_len:
+    src_string = src_string[:, src_max_len]
+  src = tf.cast(src_vocab_table.lookup(src_string), tf.int32)
+  src = tf.expand_dims(src, axis=0)
+  src_len = tf.size(src)
+  src_len = tf.expand_dims(src_len, axis=0)
+  return iterator_utils.BatchedInput(
+    initializer=None,
+    source=src,
+    target_input=None,
+    target_output=None,
+    source_sequence_length=src_len,
+    target_sequence_length=None)
 
 
 def _get_embed_device(vocab_size):
