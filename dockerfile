@@ -31,4 +31,6 @@ RUN python /src/generate-vocab.py --max_vocab_size 17000 /tmp/training-data/trai
 
 COPY dist/nmt-0.1.tar.gz /tmp/
 
+ADD export-model.sh /src
+
 WORKDIR /src/
