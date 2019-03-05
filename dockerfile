@@ -19,7 +19,7 @@ ENV GOOGLE_APPLICATION_CREDENTIALS="/secrets/gcloud-sdk-service-account.json"
 
 # Copy sources
 COPY nmt /src/nmt/
-COPY generate-vocab.py download-trainingdata.sh run-en-vi-example.sh train-local.sh train-cloud.sh /src/
+COPY generate-vocab.py download-trainingdata.sh run-en-vi-example.sh train-local.sh train-cloud.sh inference.sh /src/
 COPY dist/nmt-0.1.tar.gz /tmp/
 
 # Download training data
