@@ -20,5 +20,9 @@ RUN gcloud config set project hacking-tigrinya
 RUN gcloud config set compute/region europe-west1
 ENV GOOGLE_APPLICATION_CREDENTIALS="/secrets/gcloud-sdk-service-account.json"
 
+ADD download-trainingdata.sh /src
+RUN chmod +x /src/download-trainingdata.sh
+RUN /src/download-trainingdata.sh
+
 ADD run-en-vi-example.sh train-local.sh train-cloud.sh /src/
 COPY dist/nmt-0.1.tar.gz /tmp/
