@@ -126,13 +126,13 @@ class Exporter(object):
 
       sess.run(tf.tables_initializer())
       inference_outputs = infer_model.model.sample_words
-      inference_output = inference_outputs[0]
+      # inference_output = inference_outputs[0]
       inference_signature = tf.saved_model.signature_def_utils.predict_signature_def(
         inputs={
           'seq_input': inference_input
         },
         outputs={
-          'seq_output': tf.convert_to_tensor(inference_output)
+          'seq_output': tf.convert_to_tensor(inference_outputs)
         }
       )
       legacy_ini_op = tf.group(tf.tables_initializer(), name='legacy_init_op')
