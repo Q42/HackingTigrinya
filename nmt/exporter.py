@@ -107,7 +107,7 @@ class Exporter(object):
       model_creator = gnmt_model.GNMTModel
     else:
       raise ValueError("Unknown model architecture")
-    model = model_helper.create_infer_model(model_creator=model_creator,
+    model = model_helper.create_infer_model_v2(model_creator=model_creator,
                                             hparams=self.hparams, scope=None)
     return model
 
