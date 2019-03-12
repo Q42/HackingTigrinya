@@ -57,7 +57,7 @@ Note that exporting a model from a checkpoint that was not created on the same m
 
 Tensorflow Serving runs in a separate Docker container.
 
-First we need to export the trained model by running `./export-model.sh` from within the Docker container. At the end of the `./export-model.sh` step above the exported model is uploaded to a GCP bucket: `gs://hacking-tigrinya-enti-cloud/output-enti/[timestamp]`.
+First we need to export the trained model by running `./export-model.sh` from within the "training Docker container". At the end of the `./export-model.sh` step above the exported model is uploaded to a GCP bucket: `gs://hacking-tigrinya-enti-cloud/output-enti/[timestamp]`.
 
 Everything else regarding inference with help of Tensorflow Serving can be found in the folder [inference](inference).
 
@@ -68,7 +68,7 @@ Everything else regarding inference with help of Tensorflow Serving can be found
 If the server started correctly, you can now issue requests to the Tensorflow Serving server. Run `./infer-ti.sh` to issue two translation requests.
 
 ## Using NMT
-Run `./nmt-inference.sh <JOB_NAME> <INPUT_FILE> <OUTPUT_FILE>`.
+Run `./nmt-inference.sh <JOB_NAME> <INPUT_FILE> <OUTPUT_FILE>` (from within the "training Docker container").
 
 Example:
 ```
