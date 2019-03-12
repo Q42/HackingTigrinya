@@ -57,11 +57,13 @@ Note that exporting a model from a checkpoint that was not created on the same m
 
 Tensorflow Serving runs in a separate Docker container.
 
-First export the trained model by running `./export-model.sh` from within the Docker container. At the end of the `./export-model.sh` step above the exported model is uploaded to a GCP bucket: `gs://hacking-tigrinya-enti-cloud/output-enti/[timestamp]`.
+First we need to export the trained model by running `./export-model.sh` from within the Docker container. At the end of the `./export-model.sh` step above the exported model is uploaded to a GCP bucket: `gs://hacking-tigrinya-enti-cloud/output-enti/[timestamp]`.
 
-Make sure to run the following commands on the host machine rather than in the Docker container!
+Everything else regarding inference with help of Tensorflow Serving can be found in the folder [inference](inference).
 
-Use this timestamp as input for the following script to download the latest model and start the Tensorflow Serving container: `./download-latest-model-and-start-server [timestamp]`.
+- To build the inference container run: `build.sh [timestamp]`.
+- To start the inference container run: `run.sh`.
+- To deploy the inference container run: `deploy.sh`.
 
 If the server started correctly, you can now issue requests to the Tensorflow Serving server. Run `./infer-ti.sh` to issue two translation requests.
 
