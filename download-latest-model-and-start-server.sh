@@ -2,7 +2,7 @@
 
 rm -rf /tmp/enti
 mkdir -p /tmp/enti/
-gsutil -m cp -r gs://hacking-tigrinya-cloud/output-enti/$1 /tmp/enti/
+gsutil -m cp -r gs://hacking-tigrinya-enti-cloud/output-enti/$1 /tmp/enti/
 
 docker kill serving
 
