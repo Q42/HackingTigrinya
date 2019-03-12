@@ -5,12 +5,12 @@
 
 
 # Training
-Run Tigrinya/English training on the GCP using CloudML as follows:
+To kick off training jobs for both Tigrinya-English and English-Tigrinya on the GCP using CloudML, run:
 ```
 ./train-cloud.sh
 ```
 
-Alternatively, you can train locally with or without using CloudML:
+Alternatively, you can train locally with or without using CloudML (note: these scripts will only train a Tigrinya-English model):
 
 ```
 # Train locally using Cloud ML
@@ -38,11 +38,11 @@ To make the tarball, `cd` to the directory where these files are and run `tar -z
 
 The `vocab.ti` and `vocab.en` files are generated during Docker build. The whole package then gets copied to the destination bucket `gs://hacking-tigrinya-enti-cloud` or `gs://hacking-tigrinya-enti-local` when running either of the training scripts.
 
-# Exporting model
-To use the aftermarket exporting script proposed in [this PR](https://github.com/tensorflow/nmt/pull/344) run the following:
+# Exporting models
+To use the aftermarket exporting script proposed in [this PR](https://github.com/tensorflow/nmt/pull/344) run the following. This will export models for both TI-EN and EN-TI:
 
 ```
-./export-model.sh
+./export-model.sh [JOB]
 ```
 
 To export a [model from a checkpoint](https://stackoverflow.com/questions/45864363/tensorflow-how-to-convert-meta-data-and-index-model-files-into-one-graph-pb) run the following:
@@ -55,15 +55,15 @@ Note that exporting a model from a checkpoint that was not created on the same m
 
 ## Using Tensorflow Serving
 
-Tensorflow Serving runs in a separate Docker container.
+Tensorflow Serving runs in a separate Docker container. Tensorflow Serving serves two models, one for TI-EN translation and another one for EN-TI translation.
 
-First we need to export the trained model by running `./export-model.sh` from within the "training Docker container". At the end of the `./export-model.sh` step above the exported model is uploaded to a GCP bucket: `gs://hacking-tigrinya-enti-cloud/output-enti/[timestamp]`.
+First we need to export the trained model by running `./export-model.sh [JOB]` from within the "training Docker container". At the end of the `./export-model.sh` step above the exported models are uploaded to GCP buckets, respectively: `gs://hacking-tigrinya-enti-cloud/[JOB]/ti-en/[TIMESTAMP]` and `gs://hacking-tigrinya-enti-cloud/[JOB]/en-ti/[TIMESTAMP]`.
 
 Everything else regarding inference with help of Tensorflow Serving can be found in the folder [inference](inference).
 
-- To build the inference container run: `build.sh [timestamp]`.
+- To build the inference container run: `build.sh [JOB] [TI_EN_TIMESTAMP] [EN_TI_TIMESTAMP]`.
 - To start the inference container run: `run.sh`.
-- To deploy the inference container run: `deploy.sh`.
+- To deploy the inference container run: `deploy.sh [JOB] [TI_EN_TIMESTAMP] [EN_TI_TIMESTAMP]`.
 
 If the server started correctly, you can now issue requests to the Tensorflow Serving server. Run `./infer-ti.sh` to issue two translation requests.
 

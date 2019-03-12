@@ -1,25 +1,53 @@
 now=$(date +"%Y%m%d_%H%M%S")
-JOB_NAME="nmt_$now"
+
 MAIN_TRAINER_MODULE="nmt.nmt"
 TRAINER_PACKAGE_PATH="/tmp/nmt-0.1.tar.gz"
-JOB_DIR="gs://hacking-tigrinya-enti-cloud/$JOB_NAME"
-OUT_DIR="gs://hacking-tigrinya-enti-cloud/$JOB_NAME/nmt_model"
+BASE_DIR="gs://hacking-tigrinya-enti-cloud/nmt_$now"
 
-gsutil cp -r /tmp/training-data/ $JOB_DIR/training-data
-
-gcloud ml-engine jobs submit training $JOB_NAME \
+# Kick off training for TI-EN
+TI_EN_JOB_NAME="nmt_ti_en_$now"
+TI_EN_JOB_DIR="$BASE_DIR/ti-en"
+TI_EN_OUT_DIR="$BASE_DIR/ti-en/nmt_model"
+gsutil cp -r /tmp/training-data/ $TI_EN_JOB_DIR/training-data
+gcloud ml-engine jobs submit training $TI_EN_JOB_NAME \
     --module-name $MAIN_TRAINER_MODULE \
     --packages $TRAINER_PACKAGE_PATH \
-    --job-dir $JOB_DIR \
+    --job-dir $TI_EN_JOB_DIR \
     --runtime-version 1.12 \
     -- \
     --check_special_token=False \
     --src=ti --tgt=en \
-    --vocab_prefix=$JOB_DIR/training-data/vocab  \
-    --train_prefix=$JOB_DIR/training-data/training \
-    --dev_prefix=$JOB_DIR/training-data/test  \
-    --test_prefix=$JOB_DIR/training-data/validation \
-    --out_dir=$OUT_DIR \
+    --vocab_prefix=$TI_EN_JOB_DIR/training-data/vocab  \
+    --train_prefix=$TI_EN_JOB_DIR/training-data/training \
+    --dev_prefix=$TI_EN_JOB_DIR/training-data/test  \
+    --test_prefix=$TI_EN_JOB_DIR/training-data/validation \
+    --out_dir=$TI_EN_OUT_DIR \
+    --num_train_steps=12000 \
+    --steps_per_stats=100 \
+    --num_layers=2 \
+    --num_units=128 \
+    --dropout=0.2 \
+    --batch_size=32 \
+    --metrics=bleu
+
+# Kick off training for EN-TI
+EN_TI_JOB_NAME="nmt_en_ti_$now"
+EN_TI_JOB_DIR="$BASE_DIR/en-ti"
+EN_TI_OUT_DIR="$BASE_DIR/en-ti/nmt_model"
+gsutil cp -r /tmp/training-data/ $EN_TI_JOB_DIR/training-data
+gcloud ml-engine jobs submit training $EN_TI_JOB_NAME \
+    --module-name $MAIN_TRAINER_MODULE \
+    --packages $TRAINER_PACKAGE_PATH \
+    --job-dir $EN_TI_JOB_DIR \
+    --runtime-version 1.12 \
+    -- \
+    --check_special_token=False \
+    --src=en --tgt=ti \
+    --vocab_prefix=$EN_TI_JOB_DIR/training-data/vocab  \
+    --train_prefix=$EN_TI_JOB_DIR/training-data/training \
+    --dev_prefix=$EN_TI_JOB_DIR/training-data/test  \
+    --test_prefix=$EN_TI_JOB_DIR/training-data/validation \
+    --out_dir=$EN_TI_OUT_DIR \
     --num_train_steps=12000 \
     --steps_per_stats=100 \
     --num_layers=2 \
