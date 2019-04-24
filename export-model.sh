@@ -36,5 +36,5 @@ gcloud ml-engine local train \
     --ckpt_path=$EN_TI_OUT_DIR
 
 # Upload inference models
-gsutil -m cp -r $TI_EN_EXPORT_DIR/* gs://hacking-tigrinya-enti-cloud/$JOB/ti-en/inference_nmt_model
-gsutil -m cp -r $EN_TI_EXPORT_DIR/* gs://hacking-tigrinya-enti-cloud/$JOB/en-ti/inference_nmt_model
+gsutil -m cp -r $TI_EN_EXPORT_DIR/* gs://hacking-tigrinya-enti-cloud/$JOB/ti-en/inference_nmt_model/
+gsutil -m cp -r $EN_TI_EXPORT_DIR/* gs://hacking-tigrinya-enti-cloud/$JOB/en-ti/inference_nmt_model/

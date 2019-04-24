@@ -57,7 +57,7 @@ Note that exporting a model from a checkpoint that was not created on the same m
 
 Tensorflow Serving runs in a separate Docker container. Tensorflow Serving serves two models, one for TI-EN translation and another one for EN-TI translation.
 
-First we need to export the trained model by running `./export-model.sh [JOB]` from within the "training Docker container". At the end of the `./export-model.sh` step above the exported models are uploaded to GCP buckets, respectively: `gs://hacking-tigrinya-enti-cloud/[JOB]/ti-en/[TIMESTAMP]` and `gs://hacking-tigrinya-enti-cloud/[JOB]/en-ti/[TIMESTAMP]`.
+First we need to export the trained model by running `./export-model.sh [JOB]` from within the "training Docker container". At the end of the `./export-model.sh` step above the exported models are uploaded to GCP buckets, respectively: `gs://hacking-tigrinya-enti-cloud/[JOB]/ti-en/inference_nmt_model/[TIMESTAMP]` and `gs://hacking-tigrinya-enti-cloud/[JOB]/en-ti/inference_nmt_model/[TIMESTAMP]`.
 
 Everything else regarding inference with help of Tensorflow Serving can be found in the folder [inference](inference).
 
