@@ -65,7 +65,7 @@ Everything else regarding inference with help of Tensorflow Serving can be found
 - To start the inference container run: `run.sh`.
 - To deploy the inference container run: `deploy.sh [JOB] [TI_EN_TIMESTAMP] [EN_TI_TIMESTAMP]`.
 
-If the server started correctly, you can now issue requests to the Tensorflow Serving server. Run `./infer-ti.sh` to issue two translation requests.
+If the server started correctly, you can now issue requests to the Tensorflow Serving server. Run one of the `./infer-[local|cloud]-[ti-en|en-ti].sh` scripts to issue two translation requests.
 
 ## Using NMT
 Run `./nmt-inference.sh <JOB_NAME> <INPUT_FILE> <OUTPUT_FILE>` (from within the "training Docker container").
