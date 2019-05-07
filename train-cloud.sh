@@ -22,12 +22,20 @@ gcloud ml-engine jobs submit training $TI_EN_JOB_NAME \
     --dev_prefix=$TI_EN_JOB_DIR/training-data/test  \
     --test_prefix=$TI_EN_JOB_DIR/training-data/validation \
     --out_dir=$TI_EN_OUT_DIR \
-    --num_train_steps=12000 \
+    --num_train_steps=20000 \
     --steps_per_stats=100 \
     --num_layers=2 \
-    --num_units=128 \
+    --num_units=512 \
     --dropout=0.2 \
-    --batch_size=32 \
+    --batch_size=64 \
+    --subword_option=spm \
+    --infer_mode=beam_search \
+    --beam_width=10 \
+    --attention=scaled_luong \
+    --optimizer=adam \
+    --init_op=glorot_uniform \
+    --warmup_steps=5000 \
+    --decay_scheme=luong234 \
     --metrics=bleu
 
 # Kick off training for EN-TI
@@ -48,10 +56,18 @@ gcloud ml-engine jobs submit training $EN_TI_JOB_NAME \
     --dev_prefix=$EN_TI_JOB_DIR/training-data/test  \
     --test_prefix=$EN_TI_JOB_DIR/training-data/validation \
     --out_dir=$EN_TI_OUT_DIR \
-    --num_train_steps=12000 \
+    --num_train_steps=20000 \
     --steps_per_stats=100 \
     --num_layers=2 \
-    --num_units=128 \
+    --num_units=512 \
     --dropout=0.2 \
-    --batch_size=32 \
+    --batch_size=64 \
+    --subword_option=spm \
+    --infer_mode=beam_search \
+    --beam_width=10 \
+    --attention=scaled_luong \
+    --optimizer=adam \
+    --init_op=glorot_uniform \
+    --warmup_steps=5000 \
+    --decay_scheme=luong234 \
     --metrics=bleu
