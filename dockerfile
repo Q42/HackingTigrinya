@@ -30,5 +30,11 @@ RUN /src/download-trainingdata.sh
 # Disabled for now, since in the corpus v3, the vocab files are part of the archive we download in the previous step
 # RUN python /src/generate-vocab.py --max_vocab_size 17000 /tmp/training-data/training.en > /tmp/training-data/vocab.en
 # RUN python /src/generate-vocab.py --max_vocab_size 17000 /tmp/training-data/training.ti > /tmp/training-data/vocab.ti
+# We still need to extract only the first column from those vocab files though
+RUN mv /tmp/training-data/vocab.en /tmp/training-data/vocab-with-count.en
+RUN mv /tmp/training-data/vocab.ti /tmp/training-data/vocab-with-count.ti
+RUN cut -f 1 /tmp/training-data/vocab-with-count.en > /tmp/training-data/vocab.en
+RUN cut -f 1 /tmp/training-data/vocab-with-count.ti > /tmp/training-data/vocab.ti
+
 
 WORKDIR /src/
