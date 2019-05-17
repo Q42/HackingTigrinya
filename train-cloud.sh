@@ -34,8 +34,9 @@ gcloud ml-engine jobs submit training $TI_EN_JOB_NAME \
     --attention=scaled_luong \
     --optimizer=adam \
     --init_op=glorot_uniform \
-    --warmup_steps=5000 \
-    --decay_scheme=luong234 \
+    --warmup_steps=1000 \
+    --decay_scheme=luong5 \
+    --learning_rate=0.0002 \
     --metrics=bleu
 
 # Kick off training for EN-TI
@@ -68,6 +69,7 @@ gcloud ml-engine jobs submit training $EN_TI_JOB_NAME \
     --attention=scaled_luong \
     --optimizer=adam \
     --init_op=glorot_uniform \
-    --warmup_steps=5000 \
-    --decay_scheme=luong234 \
+    --warmup_steps=1000 \
+    --decay_scheme=luong5 \
+    --learning_rate=0.0002 \
     --metrics=bleu
