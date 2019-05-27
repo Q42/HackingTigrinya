@@ -22,10 +22,10 @@ gcloud ml-engine jobs submit training $TI_EN_JOB_NAME \
     --dev_prefix=$TI_EN_JOB_DIR/training-data/test  \
     --test_prefix=$TI_EN_JOB_DIR/training-data/validation \
     --out_dir=$TI_EN_OUT_DIR \
-    --num_train_steps=20000 \
+    --num_train_steps=30000 \
     --steps_per_stats=100 \
-    --num_layers=2 \
-    --num_units=512 \
+    --num_layers=1 \
+    --num_units=1024 \
     --dropout=0.2 \
     --batch_size=64 \
     --subword_option=spm \
@@ -34,7 +34,7 @@ gcloud ml-engine jobs submit training $TI_EN_JOB_NAME \
     --attention=scaled_luong \
     --optimizer=adam \
     --init_op=glorot_uniform \
-    --warmup_steps=1000 \
+    --warmup_steps=1500 \
     --decay_scheme=luong5 \
     --learning_rate=0.0002 \
     --metrics=bleu
@@ -57,10 +57,10 @@ gcloud ml-engine jobs submit training $EN_TI_JOB_NAME \
     --dev_prefix=$EN_TI_JOB_DIR/training-data/test  \
     --test_prefix=$EN_TI_JOB_DIR/training-data/validation \
     --out_dir=$EN_TI_OUT_DIR \
-    --num_train_steps=20000 \
+    --num_train_steps=30000 \
     --steps_per_stats=100 \
-    --num_layers=2 \
-    --num_units=512 \
+    --num_layers=1 \
+    --num_units=1024 \
     --dropout=0.2 \
     --batch_size=64 \
     --subword_option=spm \
@@ -69,7 +69,7 @@ gcloud ml-engine jobs submit training $EN_TI_JOB_NAME \
     --attention=scaled_luong \
     --optimizer=adam \
     --init_op=glorot_uniform \
-    --warmup_steps=1000 \
+    --warmup_steps=1500 \
     --decay_scheme=luong5 \
     --learning_rate=0.0002 \
     --metrics=bleu
