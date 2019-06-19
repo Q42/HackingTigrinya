@@ -22,11 +22,11 @@ gcloud ml-engine jobs submit training $TI_EN_JOB_NAME \
     --dev_prefix=$TI_EN_JOB_DIR/training-data/test  \
     --test_prefix=$TI_EN_JOB_DIR/training-data/validation \
     --out_dir=$TI_EN_OUT_DIR \
-    --num_train_steps=30000 \
+    --num_train_steps=40000 \
     --steps_per_stats=100 \
     --num_layers=1 \
     --num_units=1024 \
-    --dropout=0.2 \
+    --dropout=0.4 \
     --batch_size=64 \
     --subword_option=spm \
     --infer_mode=beam_search \
@@ -57,11 +57,11 @@ gcloud ml-engine jobs submit training $EN_TI_JOB_NAME \
     --dev_prefix=$EN_TI_JOB_DIR/training-data/test  \
     --test_prefix=$EN_TI_JOB_DIR/training-data/validation \
     --out_dir=$EN_TI_OUT_DIR \
-    --num_train_steps=30000 \
+    --num_train_steps=40000 \
     --steps_per_stats=100 \
     --num_layers=1 \
     --num_units=1024 \
-    --dropout=0.2 \
+    --dropout=0.4 \
     --batch_size=64 \
     --subword_option=spm \
     --infer_mode=beam_search \
