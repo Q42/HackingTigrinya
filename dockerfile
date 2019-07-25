@@ -36,5 +36,7 @@ RUN mv /tmp/training-data/vocab.ti /tmp/training-data/vocab-with-count.ti
 RUN cut -f 1 /tmp/training-data/vocab-with-count.en > /tmp/training-data/vocab.en
 RUN cut -f 1 /tmp/training-data/vocab-with-count.ti > /tmp/training-data/vocab.ti
 
+# Temp add data for exporting
+# COPY test /tmp/nmt_20190607_151042/
 
 WORKDIR /src/

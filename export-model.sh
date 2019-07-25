@@ -5,10 +5,6 @@ JOB=$1
 MAIN_TRAINER_MODULE="nmt.nmt"
 TRAINER_PACKAGE_PATH="nmt"
 
-# Download training models
-mkdir -p /tmp/$JOB
-gsutil -m cp -r gs://hacking-tigrinya-enti-cloud/$JOB /tmp/
-
 # Export inference model for TI-EN
 TI_EN_JOB_DIR="/tmp/$JOB/ti-en"
 TI_EN_OUT_DIR="$TI_EN_JOB_DIR/nmt_model"
@@ -20,7 +16,8 @@ gcloud ml-engine local train \
     -- \
     --out_dir=$TI_EN_OUT_DIR \
     --export_path=$TI_EN_EXPORT_DIR \
-    --ckpt_path=$TI_EN_OUT_DIR
+    --ckpt_path=$TI_EN_OUT_DIR \
+    --vocab_prefix=$TI_EN_OUT_DIR/training-data/vocab
 
 # Export inference model for EN-TI
 EN_TI_JOB_DIR="/tmp/$JOB/en-ti"
@@ -33,7 +30,8 @@ gcloud ml-engine local train \
     -- \
     --out_dir=$EN_TI_OUT_DIR \
     --export_path=$EN_TI_EXPORT_DIR \
-    --ckpt_path=$EN_TI_OUT_DIR
+    --ckpt_path=$EN_TI_OUT_DIR \
+    --vocab_prefix=$EN_TI_OUT_DIR/training-data/vocab
 
 # Upload inference models
 gsutil -m cp -r $TI_EN_EXPORT_DIR/* gs://hacking-tigrinya-enti-cloud/$JOB/ti-en/inference_nmt_model/
