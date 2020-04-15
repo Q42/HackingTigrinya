@@ -1,8 +1,11 @@
 # Setup
-1. Download secrets from 1PW and copy to secrets folder.
+1. Create [Google Cloud](https://cloud.google.com) Project
+1. Create a new [Service Account](https://console.cloud.google.com/iam-admin/serviceaccounts)
+   1. Provide it Editor permissions
+   1. Copy the key (JSON file) to the secrets folder
+   1. Rename the key to gcloud-sdk-service-account.json
 1. Build the Docker container: `./build.sh`.
 1. Start shell session in Docker container: `./run.sh`.
-
 
 # Training
 To kick off training jobs for both Tigrinya-English and English-Tigrinya on the GCP using CloudML, run:
@@ -21,8 +24,8 @@ Alternatively, you can train locally with or without using CloudML (note: these 
 ```
 
 # Preparing training data
-The training scripts grab their training data from a GCP bucket named `gs://hacking-tigrinya-training-data`. 
-To put the data there, download the data from drive https://drive.google.com/drive/u/0/folders/1R39NougcbNncesDb_ndUhONKWWjbawo- and put it in a tarball.
+
+If you want to use the training data we collected, please get in touch. The training job expects the training data to be available in a GCP bucket (currently it is hardcoded as being `gs://hacking-tigrinya-training-data`).
 
 The scripts expect the tar to contain the following files:
 ```
